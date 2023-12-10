@@ -8,11 +8,52 @@ import (
 	"strings"
 )
 
+var s = map[byte]int{
+	'T': 10,
+	'J': 1,
+	'Q': 12,
+	'K': 13,
+	'A': 14,
+	'2': 2,
+	'3': 3,
+	'4': 4,
+	'5': 5,
+	'6': 6,
+	'7': 7,
+	'8': 8,
+	'9': 9,
+}
+
 func countCards(cards string) map[string]int {
 	m := make(map[string]int)
 	for _, card := range cards {
 		m[string(card)]++
 	}
+	if _, ok := m["J"]; !ok {
+		return m
+	}
+	if m["J"] == 5 {
+		return map[string]int{"AAAAA": 5}
+	}
+
+	max := 0
+	kmax := " "
+	for k, v := range m {
+		if k == "J" {
+			continue
+		}
+		if v == max && s[k[0]] > s[kmax[0]] {
+			max = v
+			kmax = k
+			continue
+		}
+		if v > max {
+			max = v
+			kmax = k
+		}
+	}
+	m[kmax] += m["J"]
+	delete(m, "J")
 	return m
 }
 
@@ -85,21 +126,7 @@ func main() {
 		if irank < jrank {
 			return -1
 		}
-		s := map[byte]int{
-			'T': 10,
-			'J': 11,
-			'Q': 12,
-			'K': 13,
-			'A': 14,
-			'2': 2,
-			'3': 3,
-			'4': 4,
-			'5': 5,
-			'6': 6,
-			'7': 7,
-			'8': 8,
-			'9': 9,
-		}
+
 		for k := 0; k < 5; k++ {
 			if s[i.Cards[k]] > s[j.Cards[k]] {
 				return 1
