@@ -53,16 +53,12 @@ func main() {
 	for y, line := range lines {
 		for x, c := range line {
 			if c == '|' {
-				// if y-1 >= 0 {
 				if isVerticalDown(y-1, x, lines) {
 					g.AddBoth(vertex(y, x, side), vertex(y-1, x, side))
 				}
 				if isVerticalUp(y+1, x, lines) {
 					g.AddBoth(vertex(y, x, side), vertex(y+1, x, side))
 				}
-				// if y+1 < side {
-				// 	g.AddBoth(vertex(y, x, side), vertex(y+1, x, side))
-				// }
 			}
 			if c == '-' {
 				if isHorizontalRight(y, x-1, lines) {
@@ -71,12 +67,6 @@ func main() {
 				if isHorizontalLeft(y, x+1, lines) {
 					g.AddBoth(vertex(y, x, side), vertex(y, x+1, side))
 				}
-				// if x-1 >= 0 {
-				// 	g.AddBoth(vertex(y, x, side), vertex(y, x-1, side))
-				// }
-				// if x+1 < side {
-				// 	g.AddBoth(vertex(y, x, side), vertex(y, x+1, side))
-				// }
 			}
 			if c == 'L' {
 				if isVerticalDown(y-1, x, lines) {
@@ -85,12 +75,6 @@ func main() {
 				if isHorizontalLeft(y, x+1, lines) {
 					g.AddBoth(vertex(y, x, side), vertex(y, x+1, side))
 				}
-				// if y-1 >= 0 {
-				// 	g.AddBoth(vertex(y, x, side), vertex(y-1, x, side))
-				// }
-				// if x+1 < side {
-				// 	g.AddBoth(vertex(y, x, side), vertex(y, x+1, side))
-				// }
 			}
 			if c == 'J' {
 				if isVerticalDown(y-1, x, lines) {
@@ -100,12 +84,6 @@ func main() {
 					g.AddBoth(vertex(y, x, side), vertex(y, x-1, side))
 				}
 
-				// if y-1 >= 0 {
-				// 	g.AddBoth(vertex(y, x, side), vertex(y-1, x, side))
-				// }
-				// if x-1 >= 0 {
-				// 	g.AddBoth(vertex(y, x, side), vertex(y, x-1, side))
-				// }
 			}
 			if c == '7' {
 				if isHorizontalRight(y, x-1, lines) {
@@ -114,12 +92,6 @@ func main() {
 				if isVerticalUp(y+1, x, lines) {
 					g.AddBoth(vertex(y, x, side), vertex(y+1, x, side))
 				}
-				// if y+1 < side {
-				// 	g.AddBoth(vertex(y, x, side), vertex(y+1, x, side))
-				// }
-				// if x-1 >= 0 {
-				// 	g.AddBoth(vertex(y, x, side), vertex(y, x-1, side))
-				// }
 			}
 			if c == 'F' {
 				if isHorizontalLeft(y, x+1, lines) {
@@ -128,12 +100,6 @@ func main() {
 				if isVerticalUp(y+1, x, lines) {
 					g.AddBoth(vertex(y, x, side), vertex(y+1, x, side))
 				}
-				// if y+1 < side {
-				// 	g.AddBoth(vertex(y, x, side), vertex(y+1, x, side))
-				// }
-				// if x+1 < side {
-				// 	g.AddBoth(vertex(y, x, side), vertex(y, x+1, side))
-				// }
 			}
 			if c == 'S' {
 				s = vertex(y, x, side)
@@ -147,8 +113,6 @@ func main() {
 		}
 	}
 
-	// fmt.Println(g.String())
-	// fmt.Println(graph.Components(g))
 	max := 0
 	for _, c := range graph.Components(g) {
 		for _, n := range c {
@@ -159,5 +123,6 @@ func main() {
 			}
 		}
 	}
+
 	fmt.Println(max / 2)
 }
