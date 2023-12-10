@@ -93,21 +93,15 @@ func main() {
 					g.AddBoth(vertex(y, x, side), vertex(y+1, x, side))
 				}
 			}
-			if c == 'F' {
+			if c == 'F' || c == 'S' {
 				if isHorizontalLeft(y, x+1, lines) {
 					g.AddBoth(vertex(y, x, side), vertex(y, x+1, side))
 				}
 				if isVerticalUp(y+1, x, lines) {
 					g.AddBoth(vertex(y, x, side), vertex(y+1, x, side))
 				}
-			}
-			if c == 'S' {
-				s = vertex(y, x, side)
-				if isHorizontalLeft(y, x+1, lines) {
-					g.AddBoth(vertex(y, x, side), vertex(y, x+1, side))
-				}
-				if isVerticalUp(y+1, x, lines) {
-					g.AddBoth(vertex(y, x, side), vertex(y+1, x, side))
+				if c == 'S' {
+					s = vertex(y, x, side)
 				}
 			}
 		}
@@ -125,4 +119,46 @@ func main() {
 	}
 
 	fmt.Println(max / 2)
+
+	largestComponent := []int{}
+	components := graph.Components(g)
+
+	max = 0
+	for _, c := range components {
+		if len(c) > max {
+			largestComponent = c
+			max = len(c)
+		}
+	}
+
+	r := 0
+
+	for y, line := range lines {
+		for x := range line {
+			if !includes(largestComponent, vertex(y, x, side)) {
+				f := 0
+				for i := 0; i < x; i++ {
+					if includes(largestComponent, vertex(y, i, side)) {
+						if lines[y][i] == '|' || lines[y][i] == 'J' || lines[y][i] == 'L' {
+							f++
+						}
+					}
+				}
+				if f%2 == 1 {
+					r += 1
+				}
+			}
+		}
+	}
+
+	fmt.Println(r)
+}
+
+func includes(a []int, n int) bool {
+	for _, i := range a {
+		if i == n {
+			return true
+		}
+	}
+	return false
 }
