@@ -1,22 +1,31 @@
 def reflect(pond, id)
-
   # p id
   a = (0..id - 1).to_a.reverse
-  b = (id..pond.length - 1).to_a \
+  b = (id..pond.length - 1).to_a
 
-    if a.length == 0 or b.length == 0
-      return 0
-    end
+  if a.length == 0 or b.length == 0
+    return 0
+  end
 
+  sm = false
   n = a.zip(b).take_while do |idx|
     if idx[0] == nil or idx[1] == nil
       nil
     else
-      pond[idx[0]] == pond[idx[1]]
+      an = pond[idx[0]].zip(pond[idx[1]]).select { |s| s[0] != s[1] }
+      if an.length == 1
+        if sm
+          false
+        else
+          sm = true
+        end
+      else
+        an.length == 0
+      end
     end
   end
 
-  return id if n.length == a.length or n.length == b.length
+  return id if sm and (n.length == a.length or n.length == b.length)
   0
 end
 
